@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KNU Science Monitor</title>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.3.0",
+    "react-grid-layout": "https://esm.sh/react-grid-layout@1.4.4",
+    "react-draggable": "https://esm.sh/react-draggable@4.4.6",
+    "react-resizable": "https://esm.sh/react-resizable@3.0.5"
+  }
+}
+</script>
+    <style>
+      /* react-grid-layout.css */
+      .react-grid-layout{position:relative;transition:height .2s ease}.react-grid-item{position:absolute;transition:all .2s ease;transition-property:left,top}.react-grid-item.css-transforms{transition-property:transform;will-change:transform}.react-grid-item.resizing{opacity:.9;z-index:3}.react-grid-item.react-draggable-dragging{transition:none;z-index:3;will-change:transform}.react-grid-item.react-grid-placeholder{background:#add8e6;opacity:.2;transition-duration:100ms;z-index:2;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}.react-grid-item>.react-resizable-handle{position:absolute;width:20px;height:20px;bottom:0;right:0;cursor:se-resize}.react-grid-item>.react-resizable-handle::after{content:"";position:absolute;right:3px;bottom:3px;width:5px;height:5px;border-right:2px solid rgba(0,0,0,.4);border-bottom:2px solid rgba(0,0,0,.4)}.react-grid-item.react-resizable-hide>.react-resizable-handle{display:none}
+      /* react-resizable.css */
+      .react-resizable{position:relative}.react-resizable-handle{position:absolute;width:20px;height:20px;background-repeat:no-repeat;background-origin:content-box;box-sizing:border-box;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuNyBMIDQuNyA0LjcgTCA0LjcgMCBMIDYgMCBMIDYgNiBaIiBmaWxsPSIjMDAwMDAwIi8+PC9nPjwvc3ZnPg==");background-position:bottom right;padding:0 3px 3px 0}.react-resizable-handle-sw{bottom:0;left:0;cursor:sw-resize;transform:rotate(90deg)}.react-resizable-handle-se{bottom:0;right:0;cursor:se-resize}.react-resizable-handle-nw{top:0;left:0;cursor:nw-resize;transform:rotate(180deg)}.react-resizable-handle-ne{top:0;right:0;cursor:ne-resize;transform:rotate(270deg)}.react-resizable-handle-w,.react-resizable-handle-e{top:50%;margin-top:-10px;cursor:ew-resize}.react-resizable-handle-w{left:0;transform:rotate(135deg)}.react-resizable-handle-e{right:0;transform:rotate(315deg)}.react-resizable-handle-n,.react-resizable-handle-s{left:50%;margin-left:-10px;cursor:ns-resize}.react-resizable-handle-n{top:0;transform:rotate(225deg)}.react-resizable-handle-s{bottom:0;transform:rotate(45deg)}
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://raw.githack.com/yWorks/jsPDF/master/examples/fonts/LiberationSans-Regular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                '50': '#fefce8',
+                '100': '#fef9c3',
+                '200': '#fef08a',
+                '300': '#fde047',
+                '400': '#facc15',
+                '500': '#eab308',
+                '600': '#ca8a04',
+                '700': '#a16207',
+                '800': '#854d0e',
+                '900': '#713f12',
+                '950': '#422006'
+              },
+              secondary: {
+                 '50': '#f8fafc',
+                '100': '#f1f5f9',
+                '200': '#e2e8f0',
+                '300': '#cbd5e1',
+                '400': '#94a3b8',
+                '500': '#64748b',
+                '600': '#475569',
+                '700': '#334155',
+                '800': '#1e293b',
+                '900': '#0f172a',
+                '950': '#020617',
+              }
+            },
+            keyframes: {
+              'slide-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'glow': {
+                '0%, 100%': { 'box-shadow': '0 0 5px -1px rgba(202, 138, 4, 0.2), 0 0 2px 0px rgba(234, 179, 8, 0.3)' },
+                '50%': { 'box-shadow': '0 0 10px 2px rgba(202, 138, 4, 0.5), 0 0 8px 1px rgba(234, 179, 8, 0.4)' },
+              },
+               'pulse': {
+                '50%': {
+                  opacity: '.85'
+                }
+              }
+            },
+            animation: {
+              'slide-in-up': 'slide-in-up 0.5s ease-out forwards',
+              'glow': 'glow 1.5s ease-in-out infinite',
+              'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <script type="module" src="index.tsx"></script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

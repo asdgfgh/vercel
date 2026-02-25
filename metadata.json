@@ -1,0 +1,5 @@
+{
+  "name": "Vercel: KNU Science Monitor",
+  "description": "An application to fetch and display academic publication data from Scopus and ORCID. Users can input author IDs, filter by year, view results in a table, and export the data to CSV.",
+  "requestFramePermissions": []
+}
